@@ -271,11 +271,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // Popular Locations section
+                    // Service Areas section
                     Padding(
                       padding: const EdgeInsets.only(left: 23.0),
                       child: Text(
-                        'Popular Locations',
+                        'Service Areas',
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -284,43 +284,49 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Popular locations cards with images - using Figma dimensions (142x200)
+                    // Service areas cards - Kisumu neighborhoods
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 23.0),
                       child: Row(
                         children: [
                           Expanded(
-                            child: _buildLocationCardWithImage(
-                              'Western Strait',
-                              '16 locations',
-                              'https://www.figma.com/api/mcp/asset/2fe445f2-271a-4eaf-9418-9f3b7d5f5d12',
+                            child: _buildServiceAreaCard(
+                              'Milimani',
+                              12,
+                              8,
+                              Icons.location_city,
+                              const Color(0xFF0373F3),
                             ),
                           ),
                           const SizedBox(width: 25),
                           Expanded(
-                            child: _buildLocationCardWithImage(
-                              'Beach House',
-                              '22 locations',
-                              'https://www.figma.com/api/mcp/asset/e5326fea-4808-481a-8b7b-0bdbeab970ad',
+                            child: _buildServiceAreaCard(
+                              'Town Center',
+                              24,
+                              15,
+                              Icons.business,
+                              const Color(0xFF10B981),
                             ),
                           ),
                           const SizedBox(width: 25),
                           Expanded(
-                            child: _buildLocationCardWithImage(
-                              'Mountain range',
-                              '36 locations',
-                              'https://www.figma.com/api/mcp/asset/ab2aae3a-6282-4f2c-bec3-93d0cfbcdf70',
+                            child: _buildServiceAreaCard(
+                              'Nyalenda',
+                              18,
+                              12,
+                              Icons.home,
+                              const Color(0xFFF59E0B),
                             ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // Nearby Services section
+                    // Featured Listings section
                     Padding(
                       padding: const EdgeInsets.only(left: 23.0),
                       child: Text(
-                        'Nearby services',
+                        'Featured Listings',
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -329,10 +335,45 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Map preview card
+                    // Featured listings - properties and services
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 23.0),
-                      child: _buildMapCard(),
+                      child: Column(
+                        children: [
+                          // Featured property (large card)
+                          _buildFeaturedPropertyCard(
+                            '3BR Apartment',
+                            'Milimani',
+                            'KSh 15,000/month',
+                            '4.8',
+                          ),
+                          const SizedBox(height: 12),
+                          // Service providers (smaller cards)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _buildFeaturedServiceCard(
+                                  'Fresh Keja Pro',
+                                  'Same-day service',
+                                  '4.9',
+                                  Icons.local_laundry_service,
+                                  const Color(0xFF8B5CF6),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _buildFeaturedServiceCard(
+                                  'Elite Cleaning',
+                                  'Available now',
+                                  '4.7',
+                                  Icons.cleaning_services,
+                                  const Color(0xFF8B5CF6),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 30),
                     // Recent / Quick Actions section
@@ -535,92 +576,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Location cards with images - using exact Figma dimensions: 142x200
-  Widget _buildLocationCardWithImage(
-    String title,
-    String locations,
-    String imageUrl,
+  // Service Area cards - using exact Figma dimensions: 142x200
+  Widget _buildServiceAreaCard(
+    String neighborhood,
+    int propertyCount,
+    int serviceProviderCount,
+    IconData icon,
+    Color color,
   ) {
     return Container(
       width: 142,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            // Image
-            Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: const Color(0xFFC4C4C4),
-                  child: const Icon(
-                    Icons.image,
-                    color: Colors.white,
-                    size: 48,
-                  ),
-                );
-              },
-            ),
-            // Gradient overlay
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.6),
-                  ],
-                ),
-              ),
-            ),
-            // Content
-            Positioned(
-              left: 10,
-              bottom: 28,
-              child: Text(
-                title,
-                style: GoogleFonts.andika(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 10,
-              bottom: 8,
-              child: Text(
-                locations,
-                style: GoogleFonts.poppins(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMapCard() {
-    return Container(
-      width: double.infinity,
       height: 200,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -633,84 +598,274 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Stack(
-          fit: StackFit.expand,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Map placeholder
             Container(
-              color: const Color(0xFFE5E7EB),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.map,
-                    size: 48,
-                    color: const Color(0xFF9CA3AF),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Map View',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF9CA3AF),
-                    ),
-                  ),
-                ],
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: color,
+                size: 28,
               ),
             ),
-            // Overlay content
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.95),
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  neighborhood,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
                 ),
-                child: Row(
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.home,
+                      size: 14,
+                      color: const Color(0xFF0373F3),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '$propertyCount properties',
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF6B7280),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.local_laundry_service,
+                      size: 14,
+                      color: const Color(0xFF8B5CF6),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '$serviceProviderCount providers',
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF6B7280),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Featured Property card - large card for properties
+  Widget _buildFeaturedPropertyCard(
+    String title,
+    String location,
+    String price,
+    String rating,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: const Color(0xFF0373F3).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.home,
+              color: Color(0xFF0373F3),
+              size: 40,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      size: 14,
+                      color: const Color(0xFF6B7280),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      location,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF6B7280),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Text(
+                      price,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF0373F3),
+                      ),
+                    ),
+                    Row(
                       children: [
-                        Text(
-                          'Nearby services',
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                        const Icon(
+                          Icons.star,
+                          color: Color(0xFFF59E0B),
+                          size: 14,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(width: 4),
                         Text(
-                          'Tap to view on map',
+                          rating,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF6B7280),
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
                           ),
                         ),
                       ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: const Color(0xFF0373F3),
-                    ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Icon(
+            Icons.chevron_right,
+            color: const Color(0xFF9CA3AF),
+            size: 24,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Featured Service card - smaller card for service providers
+  Widget _buildFeaturedServiceCard(
+    String providerName,
+    String availability,
+    String rating,
+    IconData icon,
+    Color color,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 20,
+                ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.star,
+                    color: Color(0xFFF59E0B),
+                    size: 12,
+                  ),
+                  const SizedBox(width: 2),
+                  Text(
+                    rating,
+                    style: GoogleFonts.poppins(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            providerName,
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            availability,
+            style: GoogleFonts.poppins(
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF6B7280),
+            ),
+          ),
+        ],
       ),
     );
   }
